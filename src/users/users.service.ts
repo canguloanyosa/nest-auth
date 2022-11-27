@@ -19,10 +19,10 @@ export class UsersService {
 
   async create(createUserDto: CreateUserDto) {
     try {
-      const {password, ...userData } = createUserDto;
+      const { password, ...userData } = createUserDto;
       const user = this.userRepository.create({
         ...userData,
-        password: hashSync( password, 10)
+        password: hashSync(password, 10)
       });
       console.log(user.password);
       await this.userRepository.save(user);
@@ -54,7 +54,8 @@ export class UsersService {
 
   async findByUsername(username: string): Promise<User> {
     const user = await this.userRepository.findOne({
-      where: {username}
+      where: { username },
+      select: { username: true, password: true, isActive: true }
     });
     return user;
   }
@@ -65,10 +66,10 @@ export class UsersService {
       ...updateUserDto
     });
 
-    if(!user) {
+    if (!user) {
       throw new NotFoundException(`User with userid: ${id} not found`);
     }
-    
+
     return await this.userRepository.save(user);
 
   }

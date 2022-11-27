@@ -20,7 +20,8 @@ username: string;
 
 @Column({
     type: 'varchar',
-    length: 60    
+    length: 60,
+    select: false    
 })
 password: string
 
