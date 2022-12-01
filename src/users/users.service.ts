@@ -45,7 +45,7 @@ export class UsersService {
   async findOne(id: number): Promise<User> {
 
     const user = await this.userRepository.findOneBy({ id: id });
-    console.log(user);
+    
     if (!user)
       throw new NotFoundException(`User with id ${id} not found`);
 
@@ -53,10 +53,24 @@ export class UsersService {
   }
 
   async findByUsername(username: string): Promise<User> {
-    const user = await this.userRepository.findOne({
-      where: { username },
-      select: { username: true, password: true, isActive: true }
-    });
+
+    const user = await this.userRepository.findOne(
+      {
+        relations: {
+          roles: true
+        },
+        where: { username },
+        select: {
+          id: true,
+          username: true,
+          password: true,
+          isActive: true,
+        }
+      });
+
+    if (!user)
+      throw new NotFoundException(`Username is not found`);
+
     return user;
   }
 

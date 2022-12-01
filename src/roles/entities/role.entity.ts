@@ -25,7 +25,7 @@ export class Role {
     })
     description: string
 
-    @ManyToMany((type) => User)
+    @ManyToMany(() => User, (user) => user.roles)
     @JoinTable(
         {
             name: 'user_role',
