@@ -4,12 +4,14 @@ import { LoginAuthDto } from './dto/login-auth.dto';
 import { compareSync } from 'bcrypt';
 import { JwtPayload } from './interfaces/jwt-payload.interface';
 import { JwtService } from '@nestjs/jwt';
+import { RolesService } from '../roles/roles.service';
 
 @Injectable()
 export class AuthService {
 
   constructor(
     private readonly usersService: UsersService,
+    private readonly rolesService: RolesService,
     private readonly jwtService: JwtService
   ) { }
 
@@ -45,6 +47,19 @@ export class AuthService {
   private getJwtToken(payload: JwtPayload) {
     const token = this.jwtService.sign(payload);
     return token;
+  }
+
+  async getAllRoles() {
+    const roles = await this.rolesService.getRoles();
+
+    if (!roles) {
+      throw new UnauthorizedException('No roles in the database');
+    }
+
+    return {
+      roles
+    }
+
   }
 
 }

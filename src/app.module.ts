@@ -16,9 +16,9 @@ import { AuthModule } from './auth/auth.module';
       port: +process.env.MYSQL_PORT,
       database: process.env.MYSQL_DATABASE,
       username: process.env.MYSQL_USER,
-      password:  process.env.MYSQL_PASSWORD,
+      password: process.env.MYSQL_PASSWORD,
       autoLoadEntities: true,
-      synchronize: true
+      synchronize: true,
     }),
     UsersModule,
     CommonModule,
@@ -26,4 +26,4 @@ import { AuthModule } from './auth/auth.module';
     AuthModule
   ],
 })
-export class AppModule {}
+export class AppModule { }
